@@ -18,8 +18,6 @@ type Project = {
   links: { label: string url: string }[]
 }
 
-type ProjectFilter = "all" | "product" | "interactive"
-
 const projects: Project[] = [
   {
     number: "01",
@@ -46,22 +44,6 @@ const projects: Project[] = [
   },
   {
     number: "02",
-    title: "Ludo Zone",
-    category: "WEB GAME",
-    description:
-      "An online multiplayer Ludo game built for the web with real-time gameplay.",
-    tags: ["Game development", "Multiplayer", "Web experience"],
-    theme: "ludo",
-    art: "ludo",
-    problem:
-      "Bring the familiar energy of a multiplayer board game into a browser-based experience.",
-    approach:
-      "Build an interactive Ludo experience with player selection and real-time gameplay.",
-    value: "An approachable way for friends to play together online.",
-    links: [{ label: "Live demo", url: "https://ludo-zone.vercel.app" }],
-  },
-  {
-    number: "03",
     title: "F1 Race Game",
     category: "RACING GAME / INTERACTIVE EXPERIENCE",
     description:
@@ -85,6 +67,22 @@ const projects: Project[] = [
         url: "https://github.com/phemanth-77/pixel-perfect-play-885",
       },
     ],
+  },
+  {
+    number: "03",
+    title: "Ludo Zone",
+    category: "WEB GAME",
+    description:
+      "An online multiplayer Ludo game built for the web with real-time gameplay.",
+    tags: ["Game development", "Multiplayer", "Web experience"],
+    theme: "ludo",
+    art: "ludo",
+    problem:
+      "Bring the familiar energy of a multiplayer board game into a browser-based experience.",
+    approach:
+      "Build an interactive Ludo experience with player selection and real-time gameplay.",
+    value: "An approachable way for friends to play together online.",
+    links: [{ label: "Live demo", url: "https://ludo-zone.vercel.app" }],
   },
 ]
 
@@ -138,18 +136,6 @@ const careerLanes = [
     "Translating needs between business and technical teams.",
   ],
 ]
-
-const projectFilters: { label: string value: ProjectFilter }[] = [
-  { label: "All case files", value: "all" },
-  { label: "Product", value: "product" },
-  { label: "Interactive", value: "interactive" },
-]
-
-function projectMatchesFilter(project: Project, filter: ProjectFilter) {
-  if (filter === "all") return true
-  if (filter === "product") return project.art === "pdf"
-  return ["ludo", "f1"].includes(project.art)
-}
 
 function Arrow({
   direction = "diagonal",
@@ -478,11 +464,7 @@ function ProjectDialog({
 export default function App() {
   const [menuOpen, setMenuOpen] = useState(false)
   const [activeProject, setActiveProject] = useState<Project | null>(null)
-  const [projectFilter, setProjectFilter] = useState<ProjectFilter>("all")
   const projectTrigger = useRef<HTMLButtonElement | null>(null)
-  const filteredProjects = projects.filter((project) =>
-    projectMatchesFilter(project, projectFilter),
-  )
 
   useEffect(() => {
     if (!activeProject) return
@@ -804,29 +786,14 @@ export default function App() {
             </p>
           </div>
           <div className="archive-toolbar">
-            <div className="archive-filters" aria-label="Filter case files">
-              {projectFilters.map((filter) => (
-                <button
-                  type="button"
-                  key={filter.value}
-                  className={
-                    projectFilter === filter.value ? "is-active" : undefined
-                  }
-                  aria-pressed={projectFilter === filter.value}
-                  onClick={() => setProjectFilter(filter.value)}
-                >
-                  {filter.label}
-                </button>
-              ))}
-            </div>
             <span>
-              SHOWING {String(filteredProjects.length).padStart(2, "0")} /{" "}
+              SHOWING {String(projects.length).padStart(2, "0")} /{" "}
               {String(projects.length).padStart(2, "0")}
             </span>
           </div>
           <div aria-live="polite">
             <div className="case-grid">
-              {filteredProjects.map((project) => (
+              {projects.map((project) => (
                 <ProjectCard
                   project={project}
                   key={project.number}
