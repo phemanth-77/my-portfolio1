@@ -20,4 +20,16 @@ npm run preview
 
 ## Deployment
 
-Pushing to `main` triggers the GitHub Actions workflow in `.github/workflows/deploy.yml`, which builds the app and deploys `dist` to GitHub Pages.
+Deploy with the [Vercel CLI](https://vercel.com/docs/cli):
+
+```bash
+npx vercel
+```
+
+For production, run:
+
+```bash
+npx vercel --prod
+```
+
+The root `vercel.json` configures Vercel to build the Vite app and serve the `dist` directory. You can also import this GitHub repository in the Vercel dashboard; pushes to the configured production branch will then deploy automatically.
